@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -674,17 +673,40 @@ function usersPage(){
 
 function eTbl(ests,title,bc){
   const ow=cu.role==='owner';
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-file-text"></i>${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div>${ow?`<button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button>`:''}</div>
-  <div class="panel">${ests.length===0?`<div class="es"><i class="ti ti-file-off"></i><p>${t.ne2}</p></div>`:`<div class="tw"><table><thead><tr>${ow?`<th>${t.sc}</th>`:''}<th>${t.pc}</th><th>${t.dc}</th><th>${t.dt}</th><th>${t.am}</th><th>${t.st}</th><th>${t.act}</th></tr></thead><tbody>
-  ${ests.map(e=>`<tr>${ow?`<td><strong>${getS(e.sub_id).name}</strong></td>`:''}<td style="color:#888">${getP(e.project_id).name.split(' ').slice(0,2).join(' ')}</td><td>${e.description}</td><td style="color:#aaa;white-space:nowrap">${e.date}</td><td><strong>${fmt(e.amount)}</strong></td><td>${sbadge(e.status)}</td>
-  <td><div class="acts"><button class="btn btn-sm btn-icon" onclick="viewE('${e.id}')"><i class="ti ti-eye"></i></button>${ow&&e.status==='pending'?`<button class="btn btn-sm btn-success" onclick="appE('${e.id}')">${t.ap2}</button><button class="btn btn-sm btn-danger" onclick="rejE('${e.id}')">${t.rj}</button>`:''}${ow&&e.status==='approved'?`<button class="btn btn-sm btn-gold" onclick="openRP()">${t.py}</button>`:''}</div></td></tr>`).join('')}
+  return`<div class="ph"><div><div class="pt">${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div>${ow?`<button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button>`:''}</div>
+  <div class="panel">${ests.length===0?`<div class="es"><p>${t.ne2}</p></div>`:`<div class="tw"><table><thead><tr>${ow?`<th>${t.sc}</th>`:''}<th>${t.pc}</th><th>${t.dc}</th><th>${t.dt}</th><th>${t.am}</th><th>${t.st}</th><th>${t.act}</th></tr></thead><tbody>
+  ${ests.map(e=>`<tr>
+    ${ow?`<td><strong>${getS(e.sub_id).name}</strong></td>`:''}
+    <td style="color:#888">${getP(e.project_id).name.split(' ').slice(0,2).join(' ')}</td>
+    <td>${e.description}</td>
+    <td style="color:#aaa;white-space:nowrap">${e.date}</td>
+    <td><strong>${fmt(e.amount)}</strong></td>
+    <td>${sbadge(e.status)}</td>
+    <td><div class="acts">
+      <button class="btn btn-sm" onclick="viewE('${e.id}')">View</button>
+      <button class="btn btn-sm" onclick="editE('${e.id}')">Edit</button>
+      ${ow||e.status==='pending'?`<button class="btn btn-sm btn-danger" onclick="deleteE('${e.id}')">Delete</button>`:''}
+      ${ow&&e.status==='pending'?`<button class="btn btn-sm btn-success" onclick="appE('${e.id}')">${t.ap2}</button><button class="btn btn-sm btn-danger" onclick="rejE('${e.id}')">${t.rj}</button>`:''}
+      ${ow&&e.status==='approved'?`<button class="btn btn-sm btn-gold" onclick="openRP()">${t.py}</button>`:''}
+    </div></td>
+  </tr>`).join('')}
   </tbody></table></div>`}</div>`;
 }
 
 function sETbl(ests,title,bc){
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-file-text"></i>${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div><button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button></div>
-  <div class="panel">${ests.length===0?`<div class="es"><i class="ti ti-file-off"></i><p>${t.ne2}</p></div>`:`<div class="tw"><table><thead><tr><th>${t.pc}</th><th>${t.dc}</th><th>${t.dt}</th><th>${t.am}</th><th>${t.st}</th><th></th></tr></thead><tbody>
-  ${ests.map(e=>`<tr><td style="color:#888">${getP(e.project_id).name.split(' ').slice(0,2).join(' ')}</td><td>${e.description}</td><td style="color:#aaa;white-space:nowrap">${e.date}</td><td><strong>${fmt(e.amount)}</strong></td><td>${sbadge(e.status)}</td><td><button class="btn btn-sm btn-icon" onclick="viewE('${e.id}')"><i class="ti ti-eye"></i></button></td></tr>`).join('')}
+  return`<div class="ph"><div><div class="pt">${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div><button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button></div>
+  <div class="panel">${ests.length===0?`<div class="es"><p>${t.ne2}</p></div>`:`<div class="tw"><table><thead><tr><th>${t.pc}</th><th>${t.dc}</th><th>${t.dt}</th><th>${t.am}</th><th>${t.st}</th><th>${t.act}</th></tr></thead><tbody>
+  ${ests.map(e=>`<tr>
+    <td style="color:#888">${getP(e.project_id).name.split(' ').slice(0,2).join(' ')}</td>
+    <td>${e.description}</td>
+    <td style="color:#aaa;white-space:nowrap">${e.date}</td>
+    <td><strong>${fmt(e.amount)}</strong></td>
+    <td>${sbadge(e.status)}</td>
+    <td><div class="acts">
+      <button class="btn btn-sm" onclick="viewE('${e.id}')">View</button>
+      ${e.status==='pending'?`<button class="btn btn-sm" onclick="editE('${e.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteE('${e.id}')">Delete</button>`:`<span style="font-size:11px;color:#aaa;padding:0 4px">${e.status==='approved'?'Locked':'—'}</span>`}
+    </div></td>
+  </tr>`).join('')}
   </tbody></table></div>`}</div>`;
 }
 
@@ -700,100 +722,146 @@ function pTbl(pays,title,bc){
 function projFinancialSummary(pid, filterSubId){
   const ests = ESTS.filter(e=>e.project_id===pid && (filterSubId?e.sub_id===filterSubId:true));
   const pays = PAYS.filter(p=>p.project_id===pid && (filterSubId?p.sub_id===filterSubId:true));
-  const totalEst = ests.reduce((s,e)=>s+Number(e.amount),0);
-  const approvedAmt = ests.filter(e=>e.status==='approved').reduce((s,e)=>s+Number(e.amount),0);
-  const pendingAmt = ests.filter(e=>e.status==='pending').reduce((s,e)=>s+Number(e.amount),0);
-  const totalPaid = pays.reduce((s,p)=>s+Number(p.amount),0);
-  const outstanding = Math.max(0, approvedAmt - totalPaid);
-  const paidPct = approvedAmt>0 ? Math.min(100,Math.round(totalPaid/approvedAmt*100)) : 0;
+  const contracted = ests.filter(e=>e.status==='approved').reduce((s,e)=>s+Number(e.amount),0);
+  const pending = ests.filter(e=>e.status==='pending').reduce((s,e)=>s+Number(e.amount),0);
+  const paid = pays.reduce((s,p)=>s+Number(p.amount),0);
+  const owed = Math.max(0, contracted - paid);
+  const paidPct = contracted>0 ? Math.min(100,Math.round(paid/contracted*100)) : 0;
   return`
-  <div class="panel" style="padding:18px 20px">
-    <div style="font-size:14px;font-weight:600;margin-bottom:14px">Financial summary</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px">
-      <div style="background:#f4f4f2;border-radius:8px;padding:12px">
-        <div style="font-size:11px;color:#aaa;margin-bottom:4px">Total estimated</div>
-        <div style="font-size:18px;font-weight:600">${fmt(totalEst)}</div>
-        <div style="font-size:11px;color:#aaa">${ests.length} estimates</div>
-      </div>
-      <div style="background:#fff8e1;border-radius:8px;padding:12px;border:0.5px solid #ffe08a">
-        <div style="font-size:11px;color:#b07800;margin-bottom:4px">Pending approval</div>
-        <div style="font-size:18px;font-weight:600;color:#b07800">${fmt(pendingAmt)}</div>
-        <div style="font-size:11px;color:#b07800">${ests.filter(e=>e.status==='pending').length} estimates</div>
-      </div>
-      <div style="background:#f4f4f2;border-radius:8px;padding:12px">
-        <div style="font-size:11px;color:#aaa;margin-bottom:4px">Approved work</div>
-        <div style="font-size:18px;font-weight:600">${fmt(approvedAmt)}</div>
-        <div style="font-size:11px;color:#aaa">${ests.filter(e=>e.status==='approved').length} approved</div>
-      </div>
-      <div style="background:#e8f8ef;border-radius:8px;padding:12px;border:0.5px solid #b7e4c7">
-        <div style="font-size:11px;color:#1a7a40;margin-bottom:4px">Total paid</div>
-        <div style="font-size:18px;font-weight:600;color:#27ae60">${fmt(totalPaid)}</div>
-        <div style="font-size:11px;color:#1a7a40">${pays.length} payments</div>
-      </div>
-      <div style="background:${outstanding>0?'#fdecea':'#e8f8ef'};border-radius:8px;padding:12px;border:0.5px solid ${outstanding>0?'#f5c6c6':'#b7e4c7'}">
-        <div style="font-size:11px;color:${outstanding>0?'#c0392b':'#1a7a40'};margin-bottom:4px">Still owed</div>
-        <div style="font-size:18px;font-weight:600;color:${outstanding>0?'#c0392b':'#27ae60'}">${fmt(outstanding)}</div>
-        <div style="font-size:11px;color:${outstanding>0?'#c0392b':'#1a7a40'}">${outstanding>0?'not yet paid':'fully paid'}</div>
+  <div class="panel" style="overflow:hidden">
+    <div style="padding:16px 20px;border-bottom:0.5px solid #e0e0d8">
+      <div style="font-size:14px;font-weight:700;color:#1a2744;margin-bottom:14px">Financial Summary</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
+
+        <div style="border-radius:10px;padding:14px 16px;background:#f4f4f2">
+          <div style="font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Contracted</div>
+          <div style="font-size:22px;font-weight:700;color:#1a2744">${fmt(contracted)}</div>
+          <div style="font-size:11px;color:#aaa;margin-top:3px">${ests.filter(e=>e.status==='approved').length} approved estimate${ests.filter(e=>e.status==='approved').length!==1?'s':''}</div>
+        </div>
+
+        <div style="border-radius:10px;padding:14px 16px;background:#e8f8ef;border:1px solid #b7e4c7">
+          <div style="font-size:11px;color:#1a7a40;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Paid</div>
+          <div style="font-size:22px;font-weight:700;color:#27ae60">${fmt(paid)}</div>
+          <div style="font-size:11px;color:#1a7a40;margin-top:3px">${pays.length} payment${pays.length!==1?'s':''}</div>
+        </div>
+
+        <div style="border-radius:10px;padding:14px 16px;background:${owed>0?'#fdecea':'#e8f8ef'};border:1px solid ${owed>0?'#f5c6c6':'#b7e4c7'}">
+          <div style="font-size:11px;color:${owed>0?'#c0392b':'#1a7a40'};font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Still Owed</div>
+          <div style="font-size:22px;font-weight:700;color:${owed>0?'#c0392b':'#27ae60'}">${fmt(owed)}</div>
+          <div style="font-size:11px;color:${owed>0?'#c0392b':'#1a7a40'};margin-top:3px">${owed>0?'not yet paid':'fully paid ✓'}</div>
+        </div>
+
+        ${pending>0?`<div style="border-radius:10px;padding:14px 16px;background:#fff8e1;border:1px solid #ffe08a">
+          <div style="font-size:11px;color:#b07800;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Pending</div>
+          <div style="font-size:22px;font-weight:700;color:#b07800">${fmt(pending)}</div>
+          <div style="font-size:11px;color:#b07800;margin-top:3px">${ests.filter(e=>e.status==='pending').length} awaiting approval</div>
+        </div>`:''}
+
       </div>
     </div>
-    <div style="margin-bottom:8px">
-      <div style="display:flex;justify-content:space-between;font-size:12px;color:#555;margin-bottom:6px">
-        <span>Paid vs Approved</span>
-        <strong style="color:#27ae60">${paidPct}%</strong>
+
+    <div style="padding:16px 20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:600;color:#555">Payment progress</span>
+        <span style="font-size:13px;font-weight:700;color:${paidPct>=100?'#27ae60':'#1a2744'}">${paidPct}% paid</span>
       </div>
-      <div style="background:#e0e0d8;border-radius:10px;height:20px;overflow:hidden">
-        <div style="background:linear-gradient(90deg,#27ae60,#2ecc71);width:${paidPct}%;height:100%;border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width .4s">
-          ${paidPct>12?`<span style="font-size:11px;font-weight:600;color:white">${fmt(totalPaid)}</span>`:''}
+      <div style="background:#e0e0d8;border-radius:10px;height:24px;overflow:hidden;position:relative">
+        <div style="background:linear-gradient(90deg,#27ae60,#2ecc71);width:${paidPct}%;height:100%;border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;transition:width .5s">
+          ${paidPct>15?`<span style="font-size:11px;font-weight:700;color:white">${fmt(paid)}</span>`:''}
         </div>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:#888">
-        <span>Paid: <strong style="color:#27ae60">${fmt(totalPaid)}</strong></span>
-        <span>Owed: <strong style="color:${outstanding>0?'#c0392b':'#27ae60'}">${fmt(outstanding)}</strong></span>
-        <span>Approved: <strong>${fmt(approvedAmt)}</strong></span>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px">
+        <span style="color:#27ae60;font-weight:500">Paid: ${fmt(paid)}</span>
+        <span style="color:${owed>0?'#c0392b':'#27ae60'};font-weight:500">Owed: ${fmt(owed)}</span>
+        <span style="color:#888">Contracted: ${fmt(contracted)}</span>
       </div>
     </div>
   </div>`;
 }
 
 function projF(pid){
-  const p=getP(pid),ests=ESTS.filter(e=>e.project_id===pid),pays=PAYS.filter(y=>y.project_id===pid);
-  const so=[...new Set(ests.map(e=>e.sub_id))].map(getS);
+  const p=getP(pid);
+  const ests=ESTS.filter(e=>e.project_id===pid);
+  const pays=PAYS.filter(y=>y.project_id===pid);
+  const subIds=[...new Set(ests.map(e=>e.sub_id))];
+  const subs=subIds.map(getS);
+
   return`
-  <div class="ph"><div><div class="pt">${p.name}</div></div>${sbadge(p.status)}</div>
+  <div class="ph">
+    <div><div class="pt">${p.name}</div></div>
+    ${sbadge(p.status)}
+  </div>
+
   ${projFinancialSummary(pid, null)}
-  ${so.length>0?`<div class="panel">
-    <div class="pnh"><div class="pnt" style="font-weight:600">By subcontractor</div></div>
-    ${so.map(s=>{
-      const sEsts=ESTS.filter(e=>e.project_id===pid&&e.sub_id===s.id);
-      const sPays=PAYS.filter(py=>py.project_id===pid&&py.sub_id===s.id);
-      const sApp=sEsts.filter(e=>e.status==='approved').reduce((sum,e)=>sum+Number(e.amount),0);
-      const sPaid=sPays.reduce((sum,py)=>sum+Number(py.amount),0);
-      const sOwed=Math.max(0,sApp-sPaid);
-      const sPct=sApp>0?Math.min(100,Math.round(sPaid/sApp*100)):0;
-      return`<div style="padding:13px 16px;border-bottom:0.5px solid #e0e0d8;cursor:pointer" onclick="goNav('sf${s.id}')">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px">
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="avatar" style="width:30px;height:30px;font-size:11px">${s.initials}</div>
-            <span style="font-size:13px;font-weight:500">${s.name}</span>
-          </div>
-          <div style="display:flex;gap:12px;font-size:12px;flex-wrap:wrap">
-            <span>Approved: <strong>${fmt(sApp)}</strong></span>
-            <span style="color:#27ae60">Paid: <strong>${fmt(sPaid)}</strong></span>
-            <span style="color:${sOwed>0?'#c0392b':'#27ae60'}">Owed: <strong>${fmt(sOwed)}</strong></span>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div style="flex:1;background:#e0e0d8;border-radius:6px;height:10px;overflow:hidden">
-            <div style="background:linear-gradient(90deg,#27ae60,#2ecc71);width:${sPct}%;height:100%;border-radius:6px"></div>
-          </div>
-          <span style="font-size:11px;color:#888;flex-shrink:0;width:34px;text-align:right">${sPct}%</span>
-        </div>
-      </div>`;
-    }).join('')}
+
+  ${subs.length>0?`
+  <div class="panel" style="overflow:hidden">
+    <div style="padding:14px 20px;border-bottom:0.5px solid #e0e0d8;font-size:14px;font-weight:700;color:#1a2744">By Subcontractor</div>
+    <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Subcontractor</th>
+          <th style="text-align:right">Contracted</th>
+          <th style="text-align:right">Paid</th>
+          <th style="text-align:right;color:#c0392b">Still Owed</th>
+          <th>Progress</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${subs.map(s=>{
+          const sEsts=ESTS.filter(e=>e.project_id===pid&&e.sub_id===s.id);
+          const sPays=PAYS.filter(py=>py.project_id===pid&&py.sub_id===s.id);
+          const sContr=sEsts.filter(e=>e.status==='approved').reduce((sum,e)=>sum+Number(e.amount),0);
+          const sPaid=sPays.reduce((sum,py)=>sum+Number(py.amount),0);
+          const sOwed=Math.max(0,sContr-sPaid);
+          const sPct=sContr>0?Math.min(100,Math.round(sPaid/sContr*100)):0;
+          const sPend=sEsts.filter(e=>e.status==='pending').reduce((sum,e)=>sum+Number(e.amount),0);
+          return`<tr style="cursor:pointer" onclick="goNav('sf${s.id}')">
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="avatar" style="width:30px;height:30px;font-size:11px;flex-shrink:0">${s.initials}</div>
+                <div>
+                  <div style="font-weight:600;font-size:13px">${s.name}</div>
+                  ${sPend>0?`<div style="font-size:11px;color:#b07800">${fmt(sPend)} pending approval</div>`:''}
+                </div>
+              </div>
+            </td>
+            <td style="text-align:right;font-weight:600">${fmt(sContr)}</td>
+            <td style="text-align:right;color:#27ae60;font-weight:600">${fmt(sPaid)}</td>
+            <td style="text-align:right;font-weight:700;color:${sOwed>0?'#c0392b':'#27ae60'}">${fmt(sOwed)}</td>
+            <td style="min-width:120px">
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="flex:1;background:#e0e0d8;border-radius:6px;height:10px;overflow:hidden">
+                  <div style="background:linear-gradient(90deg,#27ae60,#2ecc71);width:${sPct}%;height:100%;border-radius:6px"></div>
+                </div>
+                <span style="font-size:11px;color:#888;flex-shrink:0;width:30px">${sPct}%</span>
+              </div>
+            </td>
+            <td>
+              <button class="btn btn-sm" onclick="event.stopPropagation();goNav('sf${s.id}')">View</button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+      <tfoot>
+        <tr style="background:#f8f8f6">
+          <td style="font-weight:700;padding:12px 16px">TOTAL</td>
+          <td style="text-align:right;font-weight:700;padding:12px 16px">${fmt(subs.reduce((s,sub)=>{return s+ESTS.filter(e=>e.project_id===pid&&e.sub_id===sub.id&&e.status==='approved').reduce((a,e)=>a+Number(e.amount),0)},0))}</td>
+          <td style="text-align:right;font-weight:700;color:#27ae60;padding:12px 16px">${fmt(pays.reduce((s,p)=>s+Number(p.amount),0))}</td>
+          <td style="text-align:right;font-weight:700;color:#c0392b;padding:12px 16px">${fmt(Math.max(0,subs.reduce((s,sub)=>{return s+ESTS.filter(e=>e.project_id===pid&&e.sub_id===sub.id&&e.status==='approved').reduce((a,e)=>a+Number(e.amount),0)},0)-pays.reduce((s,p)=>s+Number(p.amount),0)))}</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+    </div>
   </div>`:`<div class="notice"><i class="ti ti-info-circle"></i>${t.nsb}</div>`}
+
   <div style="display:flex;gap:10px;flex-wrap:wrap">
-    <button class="btn" onclick="goNav('pe${pid}')">Estimates (${ests.length})</button>
-    <button class="btn" onclick="goNav('pp${pid}')">Payments (${pays.length})</button>
+    <button class="btn" onclick="goNav('pe${pid}')">View estimates (${ests.length})</button>
+    <button class="btn btn-gold" onclick="goNav('pp${pid}')">View payments (${pays.length})</button>
+    <button class="btn btn-gold" onclick="openRP()">+ Record payment</button>
   </div>`;
 }
 
@@ -926,13 +994,104 @@ function viewE(id){
   const s=getS(e.sub_id),p=getP(e.project_id);
   const items=Array.isArray(e.items)?e.items:[];
   const tot=items.reduce((sum,i)=>sum+Number(i.qty||1)*Number(i.unit||0),0)||Number(e.amount);
+  const ow=cu.role==='owner';
+  const canEdit=ow||(e.status==='pending');
   showModal(t.ed,`
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div><div style="font-size:15px;font-weight:500">${e.description}</div><div style="font-size:12px;color:#aaa;margin-top:3px">${s.name} · ${p.name} · ${e.date}</div></div>${sbadge(e.status)}</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+      <div><div style="font-size:15px;font-weight:500">${e.description}</div>
+      <div style="font-size:12px;color:#aaa;margin-top:3px">${s.name} · ${p.name} · ${e.date}</div></div>
+      ${sbadge(e.status)}
+    </div>
     <div class="panel"><div class="tw"><table><thead><tr><th>${t.ic2}</th><th>${t.qt}</th><th>${t.up}</th><th>${t.tt}</th></tr></thead><tbody>
     ${items.length>0?items.map(i=>`<tr><td>${i.desc}</td><td>${i.qty}</td><td>${fmt(i.unit)}</td><td>${fmt(Number(i.qty)*Number(i.unit))}</td></tr>`).join(''):`<tr><td colspan="3">${e.description}</td><td>${fmt(e.amount)}</td></tr>`}
-    </tbody></table></div><div style="text-align:right;padding:10px 16px;font-weight:500;border-top:0.5px solid #e0e0d8">${t.tt}: ${fmt(tot)}</div></div>
-    ${e.status==='pending'&&cu.role==='owner'?`<div style="display:flex;gap:8px"><button class="btn btn-success" style="flex:1;justify-content:center" onclick="appE('${e.id}');closeModal()"><i class="ti ti-check"></i>${t.ap2}</button><button class="btn btn-danger" style="flex:1;justify-content:center" onclick="rejE('${e.id}');closeModal()"><i class="ti ti-x"></i>${t.rj}</button></div>`:``}
-  `,`<button class="btn" onclick="closeModal()">${t.cl}</button>`);
+    </tbody></table></div><div style="text-align:right;padding:10px 16px;font-weight:600;font-size:15px;border-top:0.5px solid #e0e0d8">${t.tt}: ${fmt(tot)}</div></div>
+    ${!ow&&e.status==='approved'?`<div class="notice"><i class="ti ti-lock"></i>This estimate has been approved and can no longer be edited.</div>`:''}
+    ${e.status==='pending'&&ow?`<div style="display:flex;gap:8px"><button class="btn btn-success" style="flex:1;justify-content:center" onclick="appE('${e.id}');closeModal()">${t.ap2}</button><button class="btn btn-danger" style="flex:1;justify-content:center" onclick="rejE('${e.id}');closeModal()">${t.rj}</button></div>`:``}
+  `,`
+    <button class="btn" onclick="closeModal()">${t.cl}</button>
+    ${canEdit?`<button class="btn" onclick="closeModal();editE('${e.id}')">Edit</button>`:''}
+    ${canEdit?`<button class="btn btn-danger" onclick="closeModal();deleteE('${e.id}')">Delete</button>`:''}
+  `);
+}
+
+function editE(id){
+  const e=ESTS.find(x=>x.id===id);if(!e)return;
+  const ow=cu.role==='owner';
+  // Block subs from editing approved/rejected estimates
+  if(!ow&&e.status!=='pending'){toast('This estimate can no longer be edited.','danger');return}
+  const items=Array.isArray(e.items)&&e.items.length>0?e.items:[{desc:'',qty:1,unit:0}];
+  showModal('Edit estimate',`
+    <div class="fg"><label class="fl">${t.pc}</label><select class="fi" id="ee-p">${PROJ.map(p=>`<option value="${p.id}"${e.project_id===p.id?' selected':''}>${p.name}</option>`).join('')}</select></div>
+    ${ow?`<div class="fg"><label class="fl">${t.sc}</label><select class="fi" id="ee-s">${SUBS.map(s=>`<option value="${s.id}"${e.sub_id===s.id?' selected':''}>${s.name}</option>`).join('')}</select></div>`:''}
+    <div class="fg"><label class="fl">${t.dc}</label><input class="fi" type="text" id="ee-d" value="${e.description}"></div>
+    <div class="fg"><label class="fl">${t.dt}</label><input class="fi" type="date" id="ee-dt" value="${e.date}"></div>
+    ${ow?`<div class="fg"><label class="fl">Status</label><select class="fi" id="ee-st"><option value="pending"${e.status==='pending'?' selected':''}>Pending</option><option value="approved"${e.status==='approved'?' selected':''}>Approved</option><option value="rejected"${e.status==='rejected'?' selected':''}>Rejected</option></select></div>`:''}
+
+    <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:6px;margin-top:4px">${t.li}</div>
+    <div style="display:grid;grid-template-columns:1fr 60px 100px 90px auto;gap:6px;margin-bottom:4px">
+      <div style="font-size:11px;color:#aaa;font-weight:500">Description</div>
+      <div style="font-size:11px;color:#aaa;font-weight:500;text-align:center">Qty</div>
+      <div style="font-size:11px;color:#aaa;font-weight:500;text-align:right">Unit price</div>
+      <div style="font-size:11px;color:#aaa;font-weight:500;text-align:right">Total</div>
+      <div></div>
+    </div>
+    <div id="li-w" style="display:flex;flex-direction:column;gap:6px">
+      ${items.map(i=>`<div class="li-row" style="display:grid;grid-template-columns:1fr 60px 100px 90px auto;gap:6px;align-items:center">
+        <input class="fi" type="text" value="${i.desc||''}" oninput="calcTotal()">
+        <input class="fi li-qty" type="number" value="${i.qty||1}" style="text-align:center" min="1" oninput="calcTotal()">
+        <input class="fi li-unit" type="number" value="${i.unit||0}" min="0" oninput="calcTotal()">
+        <div class="li-row-total" style="text-align:right;font-size:13px;font-weight:500;color:#555;padding:0 4px">${fmt(Number(i.qty||1)*Number(i.unit||0))}</div>
+        <button class="btn btn-sm" style="padding:4px 8px;color:#c0392b;border-color:#f5c6c6" onclick="removeLI(this)">✕</button>
+      </div>`).join('')}
+    </div>
+    <button class="btn btn-sm" style="margin-top:6px;width:100%;justify-content:center" onclick="addLI()">+ Add line item</button>
+    <div style="margin-top:12px;padding:12px 14px;background:#f4f4f2;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:13px;font-weight:600">Total amount</span>
+      <span id="ne-total-display" style="font-size:18px;font-weight:700;color:#1a2744">${fmt(e.amount)}</span>
+    </div>
+    <input type="hidden" id="ne-a" value="${e.amount}">
+    <div class="eb" id="ee-e" style="display:none"></div>
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button>
+     <button class="btn btn-gold" id="ee-btn" onclick="saveEditE('${id}',${ow})">Save changes</button>`);
+  // Recalculate on open
+  setTimeout(calcTotal, 50);
+}
+
+async function saveEditE(id, ow){
+  const pid=document.getElementById('ee-p')?.value;
+  const sid=ow?document.getElementById('ee-s')?.value:cu.sub_id;
+  const desc=document.getElementById('ee-d')?.value.trim();
+  const amt=parseFloat(document.getElementById('ne-a')?.value)||0;
+  const date=document.getElementById('ee-dt')?.value||today();
+  const status=ow?(document.getElementById('ee-st')?.value||'pending'):'pending';
+  const err=document.getElementById('ee-e'),btn=document.getElementById('ee-btn');
+  if(!desc){err.style.display='block';err.textContent='Please enter a description.';return}
+  if(amt<=0){err.style.display='block';err.textContent='Please add at least one line item with a price.';return}
+  const rows=document.querySelectorAll('.li-row');
+  const items=[];
+  rows.forEach(r=>{
+    const inputs=r.querySelectorAll('input');
+    const d2=inputs[0]?.value.trim();
+    const qty=Number(inputs[1]?.value)||1;
+    const unit=Number(inputs[2]?.value)||0;
+    if(d2&&unit>0)items.push({desc:d2,qty,unit});
+  });
+  btn.disabled=true;btn.textContent=t.svng;
+  const{error}=await db.from('estimates').update({project_id:pid,sub_id:sid,description:desc,amount:amt,date,status,items}).eq('id',id);
+  if(error){err.style.display='block';err.textContent=error.message;btn.disabled=false;btn.textContent='Save changes';return}
+  const idx=ESTS.findIndex(x=>x.id===id);
+  if(idx>=0)ESTS[idx]={...ESTS[idx],project_id:pid,sub_id:sid,description:desc,amount:amt,date,status,items};
+  closeModal();renderSB();renderC();toast('Estimate updated.');
+}
+
+async function deleteE(id){
+  if(!confirm('Delete this estimate? This cannot be undone.'))return;
+  const e=ESTS.find(x=>x.id===id);
+  if(!cu.role==='owner'&&e?.status!=='pending'){toast('Only pending estimates can be deleted.','danger');return}
+  const{error}=await db.from('estimates').delete().eq('id',id);
+  if(error){toast(error.message,'danger');return}
+  ESTS=ESTS.filter(x=>x.id!==id);
+  renderSB();renderC();toast('Estimate deleted.');
 }
 
 function openNE(pid){
