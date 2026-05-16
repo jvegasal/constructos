@@ -50,15 +50,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f4f2;min-heigh
 .pt{font-size:17px;font-weight:500;display:flex;align-items:center;gap:8px}
 .pt i{color:#d4a843}
 .bc2{font-size:12px;color:#aaa;margin-top:2px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:8px;border:0.5px solid #ccc;background:white;cursor:pointer;font-size:13px;font-weight:500;color:#1a1a1a;transition:background .1s}
-.btn:hover:not(:disabled){background:#f4f4f2}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1.5px solid #bbb;background:white;cursor:pointer;font-size:13px;font-weight:500;color:#1a1a1a;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.btn:hover:not(:disabled){background:#f0f0ee;border-color:#999}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-gold{background:#d4a843;color:#1a2744;border-color:transparent;font-weight:600}
-.btn-gold:hover:not(:disabled){background:#e0b44a}
-.btn-sm{padding:4px 10px;font-size:12px}
-.btn-icon{padding:6px 7px}
-.btn-danger{color:#c0392b;border-color:#f5c6c6}
-.btn-success{color:#27ae60;border-color:#b7e4c7}
+.btn-gold{background:#d4a843;color:#1a2744;border-color:#c49a35;font-weight:700;box-shadow:0 1px 4px rgba(212,168,67,0.35)}
+.btn-gold:hover:not(:disabled){background:#e0b44a;border-color:#c49a35}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-icon{padding:6px 8px}
+.btn-danger{color:#c0392b;border-color:#e0a0a0;background:#fff8f8}
+.btn-danger:hover:not(:disabled){background:#fdecea}
+.btn-success{color:#27ae60;border-color:#a0d8b0;background:#f8fff8}
+.btn-success:hover:not(:disabled){background:#e8f8ef}
 .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .sc{background:#f4f4f2;border-radius:8px;padding:13px 15px}
 .sl{font-size:11px;color:#aaa;margin-bottom:5px}
@@ -152,6 +154,11 @@ select.fi{cursor:pointer}
 .toast.success{background:#e8f8ef;color:#1a7a40}
 .toast.danger{background:#fdecea;color:#c0392b}
 @media(max-width:700px){.tc{grid-template-columns:1fr}.sg{grid-template-columns:1fr 1fr}.sidebar{display:none}}
+/* Force button visibility */
+button{font-family:inherit}
+.btn-gold{background:#d4a843!important;color:#1a2744!important;border:1.5px solid #b8902e!important}
+.btn:not(.btn-gold):not(.btn-danger):not(.btn-success){background:white!important;color:#1a1a1a!important;border:1.5px solid #bbb!important}
+.pnh .btn-sm{background:#f4f4f2!important;border:1px solid #ccc!important;color:#555!important}
 </style>
 </head>
 <body>
@@ -226,7 +233,7 @@ select.fi{cursor:pointer}
             <div class="dd-info"><div class="dd-role" id="dd-rl">Owner</div><div class="dd-un" id="dd-un">@owner</div></div>
             <div class="dd-div"></div>
             <div class="dd-item" onclick="openCPw(event)"><i class="ti ti-lock"></i><span id="dd-cp">Change my password</span></div>
-            <div class="dd-item" onclick="doLogout(event)"><i class="ti ti-logout"></i><span id="dd-lo">Sign out</span></div>
+            <div class="dd-item" onclick="doLogout(event)">{1F6AA} <span id="dd-lo">Sign out</span></div>
           </div>
         </div>
       </div>
@@ -430,7 +437,7 @@ function openCPw(e){
     <div class="fg"><label class="fl">${t.nw}</label><div class="pw-w"><input class="fi" type="password" id="cp-n" placeholder="••••••••" oninput="ustr('cp-n','cp-b','cp-l')"><button class="pe" onclick="tpw('cp-n')"><i class="ti ti-eye"></i></button></div><div class="pwb" id="cp-b"></div><span class="pwl" id="cp-l"></span></div>
     <div class="fg"><label class="fl">${t.cf}</label><div class="pw-w"><input class="fi" type="password" id="cp-f" placeholder="••••••••"><button class="pe" onclick="tpw('cp-f')"><i class="ti ti-eye"></i></button></div></div>
     <div class="eb" id="cp-e" style="display:none"></div>
-  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="cp-btn" onclick="doCPw()"><i class="ti ti-lock"></i>${t.sv}</button>`);
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="cp-btn" onclick="doCPw()">${t.sv}</button>`);
 }
 async function doCPw(){
   const cr=document.getElementById('cp-c')?.value,nw=document.getElementById('cp-n')?.value,cf=document.getElementById('cp-f')?.value;
@@ -452,7 +459,7 @@ function openRPw(sid){
     <div class="fg"><label class="fl">${t.cf}</label><div class="pw-w"><input class="fi" type="password" id="rp-f" placeholder="••••••••"><button class="pe" onclick="tpw('rp-f')"><i class="ti ti-eye"></i></button></div></div>
     <div style="display:flex;justify-content:flex-end;margin-top:-4px"><button class="btn btn-sm" onclick="fpw('rp-n','rp-f','rp-b','rp-l')"><i class="ti ti-refresh"></i> ${t.ag}</button></div>
     <div class="eb" id="rp-e" style="display:none"></div>
-  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="rp-btn" onclick="doRPw('${sid}')"><i class="ti ti-key"></i>${t.rb}</button>`);
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="rp-btn" onclick="doRPw('${sid}')">${t.rb}</button>`);
 }
 async function doRPw(sid){
   const nw=document.getElementById('rp-n')?.value,cf=document.getElementById('rp-f')?.value;
@@ -546,7 +553,7 @@ function owDash(){
   const tE=ESTS.reduce((s,e)=>s+Number(e.amount),0),tP=PAYS.reduce((s,p)=>s+Number(p.amount),0);
   const pend=ESTS.filter(e=>e.status==='pending'),pA=pend.reduce((s,e)=>s+Number(e.amount),0);
   return`<div class="ph"><div><div class="pt"><i class="ti ti-layout-dashboard"></i>${t.db}</div></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="openNE()"><i class="ti ti-plus"></i>${t.ne}</button><button class="btn btn-gold" onclick="openRP()"><i class="ti ti-currency-dollar"></i>${t.rp}</button></div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="openNE()">+ ${t.ne}</button><button class="btn btn-gold" onclick="openRP()">$ ${t.rp}</button></div></div>
   <div class="sg">
     <div class="sc"><div class="sl">${t.te}</div><div class="sv">${fmt(tE)}</div><div class="ss">${ESTS.length} ${t.ec}</div></div>
     <div class="sc"><div class="sl">${t.tp}</div><div class="sv">${fmt(tP)}</div><div class="ss">${PAYS.length} ${t.pyc}</div></div>
@@ -577,7 +584,7 @@ function owDash(){
 }
 
 function usersPage(){
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-users"></i>${t.subs}</div></div><button class="btn btn-gold" onclick="openAS()"><i class="ti ti-plus"></i>${t.as}</button></div>
+  return`<div class="ph"><div><div class="pt"><i class="ti ti-users"></i>${t.subs}</div></div><button class="btn btn-gold" onclick="openAS()">+ ${t.as}</button></div>
   <div class="panel">
     ${SUBS.length===0?`<div class="es"><i class="ti ti-users"></i><p>No subcontractors yet.</p></div>`:''}
     ${SUBS.map(s=>{const ec=ESTS.filter(e=>e.sub_id===s.id).length,pc=PAYS.filter(p=>p.sub_id===s.id).length;return`<div class="sr">
@@ -592,7 +599,7 @@ function usersPage(){
 
 function eTbl(ests,title,bc){
   const ow=cu.role==='owner';
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-file-text"></i>${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div>${ow?`<button class="btn btn-gold" onclick="openNE()"><i class="ti ti-plus"></i>${t.ne}</button>`:''}</div>
+  return`<div class="ph"><div><div class="pt"><i class="ti ti-file-text"></i>${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div>${ow?`<button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button>`:''}</div>
   <div class="panel">${ests.length===0?`<div class="es"><i class="ti ti-file-off"></i><p>${t.ne2}</p></div>`:`<div class="tw"><table><thead><tr>${ow?`<th>${t.sc}</th>`:''}<th>${t.pc}</th><th>${t.dc}</th><th>${t.dt}</th><th>${t.am}</th><th>${t.st}</th><th>${t.act}</th></tr></thead><tbody>
   ${ests.map(e=>`<tr>${ow?`<td><strong>${getS(e.sub_id).name}</strong></td>`:''}<td style="color:#888">${getP(e.project_id).name.split(' ').slice(0,2).join(' ')}</td><td>${e.description}</td><td style="color:#aaa;white-space:nowrap">${e.date}</td><td><strong>${fmt(e.amount)}</strong></td><td>${sbadge(e.status)}</td>
   <td><div class="acts"><button class="btn btn-sm btn-icon" onclick="viewE('${e.id}')"><i class="ti ti-eye"></i></button>${ow&&e.status==='pending'?`<button class="btn btn-sm btn-success" onclick="appE('${e.id}')">${t.ap2}</button><button class="btn btn-sm btn-danger" onclick="rejE('${e.id}')">${t.rj}</button>`:''}${ow&&e.status==='approved'?`<button class="btn btn-sm btn-gold" onclick="openRP()">${t.py}</button>`:''}</div></td></tr>`).join('')}
@@ -600,7 +607,7 @@ function eTbl(ests,title,bc){
 }
 
 function sETbl(ests,title,bc){
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-file-text"></i>${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div><button class="btn btn-gold" onclick="openNE()"><i class="ti ti-plus"></i>${t.ne}</button></div>
+  return`<div class="ph"><div><div class="pt"><i class="ti ti-file-text"></i>${title}</div>${bc?`<div class="bc2">${bc}</div>`:''}</div><button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button></div>
   <div class="panel">${ests.length===0?`<div class="es"><i class="ti ti-file-off"></i><p>${t.ne2}</p></div>`:`<div class="tw"><table><thead><tr><th>${t.pc}</th><th>${t.dc}</th><th>${t.dt}</th><th>${t.am}</th><th>${t.st}</th><th></th></tr></thead><tbody>
   ${ests.map(e=>`<tr><td style="color:#888">${getP(e.project_id).name.split(' ').slice(0,2).join(' ')}</td><td>${e.description}</td><td style="color:#aaa;white-space:nowrap">${e.date}</td><td><strong>${fmt(e.amount)}</strong></td><td>${sbadge(e.status)}</td><td><button class="btn btn-sm btn-icon" onclick="viewE('${e.id}')"><i class="ti ti-eye"></i></button></td></tr>`).join('')}
   </tbody></table></div>`}</div>`;
@@ -631,7 +638,7 @@ function subF(sid){
   const app=ests.filter(e=>e.status==='approved').reduce((sum,e)=>sum+Number(e.amount),0);
   const paid=pays.reduce((sum,p)=>sum+Number(p.amount),0);
   const pids=[...new Set(ests.map(e=>e.project_id))];
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-folder"></i>${s.name}</div></div><button class="btn btn-gold" onclick="openRP()"><i class="ti ti-currency-dollar"></i>${t.rp}</button></div>
+  return`<div class="ph"><div><div class="pt"><i class="ti ti-folder"></i>${s.name}</div></div><button class="btn btn-gold" onclick="openRP()">$ ${t.rp}</button></div>
   <div class="sg"><div class="sc"><div class="sl">${t.aw}</div><div class="sv">${fmt(app)}</div></div><div class="sc"><div class="sl">${t.tp}</div><div class="sv" style="color:#27ae60">${fmt(paid)}</div></div><div class="sc"><div class="sl">${t.ob}</div><div class="sv">${fmt(app-paid)}</div></div><div class="sc"><div class="sl">${t.pe}</div><div class="sv" style="color:#e67e22">${ests.filter(e=>e.status==='pending').length}</div></div></div>
   <div class="fgrid">${pids.map(pid=>{const p=getP(pid);return`<div class="fc" onclick="goNav('pf${pid}')"><div class="fci"><i class="ti ti-folder"></i></div><div class="fcn">${p.name}</div><div class="fcm">${ests.filter(e=>e.project_id===pid).length} ${t.ec} · ${pays.filter(y=>y.project_id===pid).length} ${t.pyc}</div></div>`}).join('')}</div>
   <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="goNav('se${sid}')"><i class="ti ti-file-text"></i>${t.ve}</button><button class="btn" onclick="goNav('sp${sid}')"><i class="ti ti-receipt"></i>${t.vp}</button></div>`;
@@ -641,7 +648,7 @@ function subDash(sid){
   const s=getS(sid),myE=ESTS.filter(e=>e.sub_id===sid),myP=PAYS.filter(p=>p.sub_id===sid);
   const app=myE.filter(e=>e.status==='approved').reduce((sum,e)=>sum+Number(e.amount),0);
   const paid=myP.reduce((sum,p)=>sum+Number(p.amount),0);
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-layout-dashboard"></i>${t.md}</div><div class="bc2">${s.name}</div></div><button class="btn btn-gold" onclick="openNE()"><i class="ti ti-plus"></i>${t.ne}</button></div>
+  return`<div class="ph"><div><div class="pt"><i class="ti ti-layout-dashboard"></i>${t.md}</div><div class="bc2">${s.name}</div></div><button class="btn btn-gold" onclick="openNE()">+ ${t.ne}</button></div>
   <div class="notice"><i class="ti ti-info-circle"></i>${t.sn}</div>
   <div class="sg"><div class="sc"><div class="sl">${t.aw}</div><div class="sv">${fmt(app)}</div></div><div class="sc"><div class="sl">${t.rps}</div><div class="sv" style="color:#27ae60">${fmt(paid)}</div></div><div class="sc"><div class="sl">${t.ob}</div><div class="sv">${fmt(app-paid)}</div></div><div class="sc"><div class="sl">${t.pe}</div><div class="sv" style="color:#e67e22">${myE.filter(e=>e.status==='pending').length}</div></div></div>
   <div class="tc">
@@ -656,7 +663,7 @@ function subDash(sid){
 
 function subPF(pid,sid){
   const p=getP(pid),myE=ESTS.filter(e=>e.project_id===pid&&e.sub_id===sid),myP=PAYS.filter(y=>y.project_id===pid&&y.sub_id===sid);
-  return`<div class="ph"><div><div class="pt"><i class="ti ti-folder"></i>${p.name}</div></div><button class="btn btn-gold" onclick="openNE('${pid}')"><i class="ti ti-plus"></i>${t.ne}</button></div>
+  return`<div class="ph"><div><div class="pt"><i class="ti ti-folder"></i>${p.name}</div></div><button class="btn btn-gold" onclick="openNE('${pid}')">+ ${t.ne}</button></div>
   <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="goNav('mpe${pid}')"><i class="ti ti-file-text"></i>${t.est} (${myE.length})</button><button class="btn" onclick="goNav('mpp${pid}')"><i class="ti ti-receipt"></i>${t.pay} (${myP.length})</button></div>
   ${sETbl(myE,t.est,p.name)}`;
 }
@@ -705,7 +712,7 @@ function openNE(pid){
     <div style="font-size:12px;font-weight:500;color:#555;margin-bottom:4px">${t.li} (optional)</div>
     <div id="li-w" style="display:flex;flex-direction:column;gap:6px"><div style="display:grid;grid-template-columns:1fr 50px 90px auto;gap:6px;align-items:center"><input class="fi" placeholder="${t.ic2}" type="text"><input class="fi" type="number" value="1" style="text-align:center" min="1"><input class="fi" placeholder="$" type="number" min="0"><button class="btn btn-sm btn-icon" onclick="addLI()"><i class="ti ti-plus"></i></button></div></div>
     <div class="eb" id="ne-e" style="display:none"></div>
-  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="ne-btn" onclick="subEst(${ow})"><i class="ti ti-send"></i>${t.se}</button>`);
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="ne-btn" onclick="subEst(${ow})">+ ${t.se}</button>`);
 }
 
 function addLI(){
@@ -742,7 +749,7 @@ function openRP(){
     <div class="fr"><div class="fg"><label class="fl">${t.am} ($)</label><input class="fi" type="number" id="rp-a" placeholder="0.00" min="0"></div><div class="fg"><label class="fl">${t.dt}</label><input class="fi" type="date" id="rp-d" value="${today()}"></div></div>
     <div class="fr"><div class="fg"><label class="fl">${t.mc}</label><select class="fi" id="rp-m"><option>ACH Transfer</option><option>Check</option><option>Wire</option><option>Cash</option><option>Credit card</option></select></div><div class="fg"><label class="fl">${t.nc}</label><input class="fi" type="text" id="rp-n" placeholder="e.g. First draw — 50%"></div></div>
     <div class="eb" id="rp-err" style="display:none"></div>
-  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="rp-btn" onclick="subPay()"><i class="ti ti-currency-dollar"></i>${t.rp}</button>`);
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="rp-btn" onclick="subPay()">$ ${t.rp}</button>`);
 }
 
 async function subPay(){
@@ -765,7 +772,7 @@ function openNP(){
     <div class="fg"><label class="fl">${t.pjb}</label><input class="fi" type="number" id="np-b" placeholder="0.00" min="0"></div>
     <div class="fg"><label class="fl">${t.st}</label><select class="fi" id="np-s"><option value="active">${t.active}</option><option value="completed">${t.completed}</option></select></div>
     <div class="eb" id="np-e" style="display:none"></div>
-  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="np-btn" onclick="subProj()"><i class="ti ti-plus"></i>${t.apj}</button>`);
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="np-btn" onclick="subProj()">+ ${t.apj}</button>`);
 }
 
 async function subProj(){
@@ -789,7 +796,7 @@ function openAS(){
     <div style="display:flex;justify-content:flex-end;margin-top:-4px"><button class="btn btn-sm" onclick="fpw('as-pw',null,'as-b','as-l')"><i class="ti ti-refresh"></i> ${t.ag}</button></div>
     <div class="notice"><i class="ti ti-lock"></i>${t.an}</div>
     <div class="eb" id="as-e" style="display:none"></div>
-  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="as-btn" onclick="subAS()"><i class="ti ti-user-plus"></i>${t.sv}</button>`);
+  `,`<button class="btn" onclick="closeModal()">${t.cn}</button><button class="btn btn-gold" id="as-btn" onclick="subAS()">+ ${t.sv}</button>`);
 }
 
 async function subAS(){
